@@ -49,45 +49,30 @@ namespace Brackets
 
         public static void GetArray(int[] list)
         {
-            int sum1 = 0;
-            for (int i = 0; i < list.Length; i++)
-            {
-                sum1 += list[i];
-            }
-            
-            if (sum1 != list.Length / 2) { return; }
-            if (list[0] == 0 || list[list.Length - 1] == 1) { return; }
-
-            int[] nArray3 = new int[list.Length];
             int t = 0;
             int r = 0;
-            for (int i = 0; i < nArray3.Length; i++)
+            foreach (int i in list)
             {
-                nArray3[i] = list[i];
-                if (nArray3[i] == 1) {t++;}
-                if (nArray3[i] == 0) {r++;}
+                if (i == 1) { t++; }
+                if (i == 0) { r++; }
                 if (t < r) { return; }
             }
             
-
+            if (t != list.Length / 2) { return; }
+            if (list[0] == 0 || list[list.Length - 1] == 1) { return; }
+            
             char[] ch = new char[list.Length];
             for (int i = 0; i < ch.Length; i++)
             {
                 ch[i] = char.Parse(list[i].ToString());
-            }
-            for (int i = 0; i < ch.Length; i++)
-            {
                 if (ch[i] == '0')
                     ch[i] = ')';
                 if (ch[i] == '1')
                     ch[i] = '(';
-
-            }
-            for (int i = 0; i < ch.Length; i++)
-            {
                 Console.Write("{0}", ch[i]);
             }
             Console.WriteLine();
+            
         }
     }
 }
