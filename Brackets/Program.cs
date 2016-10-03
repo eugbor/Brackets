@@ -3,7 +3,9 @@
 namespace Brackets
 {
     class Program
-    {
+    {/// <summary>
+     /// Комбинаторный алгоритм.
+     /// </summary>
         static void Main(string[] args)
         {
             int n = int.Parse(Console.ReadLine());
@@ -14,62 +16,43 @@ namespace Brackets
 
         public static void GetNumber(int n)
         {
-            int[] nArray1 = new int[n];
-            for (int i = 1; i < nArray1.Length; i++)
+            int[] nArray = new int[n];
+
+            double countItteration = Math.Pow(2, n);
+            while (countItteration-- >= 0)
             {
-                nArray1[i] = 0;
-            }
-            int[] nArray2 = new int[n];
-            for (int i = 1; i < nArray2.Length; i++)
-            {
-                nArray2[i] = 0;
-            }
-            nArray2[0] = 1;
-            int sum = 0;
-            while (sum != n)
-            {
-                for (int i = 0; i < nArray1.Length; i++)
+                nArray[0] += 1;
+
+                for (int i = 0; i < nArray.Length - 1; i++)
                 {
-                    nArray1[i] = nArray1[i] + nArray2[i];
-                    if (nArray1[nArray1.Length - 1] == 2) {nArray1[nArray1.Length - 1]=0;}
-                    if (nArray1[i] == 2)
-                    {
-                        nArray1[i] = 0;
-                        nArray1[i + 1] = nArray1[i + 1] + 1;
-                    }
+                    nArray[i + 1] += nArray[i]/2;
+                    nArray[i] = nArray[i]%2;
                 }
-                GetArray(nArray1);
-                sum = 0;
-                for (int i = 0; i < nArray1.Length; i++)
-                {
-                    sum += nArray1[i];
-                }
+                
+                GetArray(nArray);
             }
         }
 
         public static void GetArray(int[] list)
         {
-            int t = 0;
-            int r = 0;
+
+            int countOpened = 0;
             foreach (int i in list)
             {
-                if (i == 1) { t++; }
-                if (i == 0) { r++; }
-                if (t < r) { return; }
+                countOpened += i == 1 ? 1 : -1;
+                if (countOpened < 0)
+                    return;
             }
             
-            if (t != list.Length / 2) { return; }
-            if (list[0] == 0 || list[list.Length - 1] == 1) { return; }
+            if (countOpened != 0)
+                return;
             
-            char[] ch = new char[list.Length];
-            for (int i = 0; i < ch.Length; i++)
+            foreach (int item in list)
             {
-                ch[i] = char.Parse(list[i].ToString());
-                if (ch[i] == '0')
-                    ch[i] = ')';
-                if (ch[i] == '1')
-                    ch[i] = '(';
-                Console.Write("{0}", ch[i]);
+                if (item == 0)
+                    Console.Write(')');
+                if (item == 1)
+                    Console.Write('(');
             }
             Console.WriteLine();
             
